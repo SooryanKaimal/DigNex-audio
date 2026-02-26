@@ -32,7 +32,61 @@ button.danger { background: var(--error); color: #fff; }
 .network-Medium { color: orange; }
 .network-Poor { color: var(--error); }
 
-.nav-bar { width: 100%; padding: 15px; background: var(--surface-color); display: flex; justify-content: space-between; align-items: center; }
-.nav-bar a { color: var(--primary-color); text-decoration: none; margin-left: 15px; }
+/* --- Modern Navbar --- */
+.nav-bar {
+  width: 100%;
+  padding: 12px 20px;
+  background: var(--surface-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky; /* Keeps it at the top when scrolling */
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* User Info Container */
+.nav-user {
+  display: flex;
+  flex-direction: column;
+  max-width: 50%; /* Prevents long names from pushing buttons off-screen */
+}
+
+.nav-user span {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.nav-user strong {
+  font-size: 1rem;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Adds '...' if the name is too long */
+}
+
+/* Nav Links Container */
+.nav-links {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-links a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(187, 134, 252, 0.1); /* Subtle purple button background */
+  transition: background 0.2s ease;
+}
+
+.nav-links a:hover {
+  background: rgba(187, 134, 252, 0.25);
+}
 
 .hidden { display: none !important; }

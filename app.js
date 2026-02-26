@@ -11,7 +11,8 @@ onAuthStateChanged(auth, async (user) => {
     // Set presence
     const userRef = doc(db, 'users', user.uid);
     await updateDoc(userRef, { online: true, lastSeen: new Date().toISOString() });
-    document.getElementById('user-display').innerText = `Logged in as: ${user.email}`;
+    // This splits the email at the '@' and only shows the first part
+    document.getElementById('user-display').innerText = user.email.split('@')[0];
 
     // Handle logout
     document.getElementById('logout-btn').addEventListener('click', async () => {
