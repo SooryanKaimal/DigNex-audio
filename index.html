@@ -8,26 +8,25 @@
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
-    <div class="nav-bar">
-    <div class="nav-user">
-        <span style="font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase;">Welcome</span><br>
-        <strong id="user-display" style="font-size: 1rem; color: var(--text-primary);">Loading...</strong>
+    <div class="container">
+        <h1 id="auth-title">Welcome Back</h1>
+        <form id="auth-form">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit" id="auth-action-btn">Login</button>
+        </form>
+        
+        <p id="error-msg" style="color: var(--error); text-align: center; margin-top: 10px;"></p>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <span style="color: var(--text-secondary); font-size: 0.9rem;">
+                <span id="toggle-text">Don't have an account?</span> 
+                <a href="#" id="toggle-mode-btn" style="color: var(--primary-color); text-decoration: none; font-weight: bold;">Sign Up</a>
+            </span>
+        </div>
     </div>
-    <div class="nav-links" style="display: flex; gap: 15px;">
-        <a href="profile.html" style="color: var(--primary-color); text-decoration: none;">Profile</a>
-        <a href="#" id="logout-btn" style="color: var(--primary-color); text-decoration: none;">Logout</a>
-    </div>
-</div>
-    <p id="error-msg" style="color: var(--error); text-align: center; margin-top: 10px;"></p>
-    
-    <div style="text-align: center; margin-top: 20px;">
-        <span style="color: var(--text-secondary); font-size: 0.9rem;">
-            <span id="toggle-text">Don't have an account?</span> 
-            <a href="#" id="toggle-mode-btn" style="color: var(--primary-color); text-decoration: none; font-weight: bold;">Sign Up</a>
-        </span>
-    </div>
-</div>
     <script type="module" src="firebase.js"></script>
     <script type="module" src="auth.js"></script>
+</body>
 </body>
 </html>
