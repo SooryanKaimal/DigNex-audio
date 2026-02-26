@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Audio PWA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="nav-bar">
+        <span id="user-display">Loading...</span>
+        <div>
+            <a href="profile.html">Profile</a>
+            <a href="#" id="logout-btn">Logout</a>
+        </div>
+    </div>
+    <div class="container">
+        <h2>Online Users</h2>
+        <ul id="users-list" class="user-list"></ul>
+        
+        <hr style="border-color: #2c2c2c; margin: 20px 0;">
+        <h2>Join Room</h2>
+        <input type="text" id="room-input" placeholder="Enter Room ID">
+        <button id="join-room-btn">Join Call</button>
+        
+        <div id="incoming-call-alert" class="hidden" style="background: var(--surface-color); padding: 15px; border: 1px solid var(--primary-color); border-radius: 8px; margin-top: 20px;">
+            <p>Incoming Call...</p>
+            <button id="accept-call" style="background: var(--success);">Accept</button>
+            <button id="reject-call" class="danger">Reject</button>
+        </div>
+    </div>
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="app.js"></script>
+</body>
+</html>

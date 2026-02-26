@@ -1,0 +1,38 @@
+:root {
+  --bg-color: #121212;
+  --surface-color: #1e1e1e;
+  --primary-color: #bb86fc;
+  --text-primary: #ffffff;
+  --text-secondary: #b3b3b3;
+  --error: #cf6679;
+  --success: #03dac6;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body { background-color: var(--bg-color); color: var(--text-primary); display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+
+.container { width: 100%; max-width: 400px; padding: 20px; margin-top: 50px; background: var(--surface-color); border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+h1, h2 { text-align: center; margin-bottom: 20px; color: var(--primary-color); }
+
+input, button { width: 100%; padding: 12px; margin: 10px 0; border-radius: 6px; border: none; outline: none; }
+input { background: #2c2c2c; color: #fff; }
+button { background: var(--primary-color); color: #000; font-weight: bold; cursor: pointer; transition: 0.3s; }
+button:hover { opacity: 0.8; }
+button.danger { background: var(--error); color: #fff; }
+
+.user-list { list-style: none; margin-top: 20px; }
+.user-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: #2c2c2c; margin-bottom: 10px; border-radius: 6px; }
+.online-dot { height: 10px; width: 10px; background-color: var(--success); border-radius: 50%; display: inline-block; margin-right: 8px; }
+
+/* Call UI */
+.call-status { text-align: center; font-size: 1.2rem; margin-bottom: 10px; }
+.timer { text-align: center; font-size: 2rem; font-family: monospace; margin: 20px 0; color: var(--success); }
+.network-indicator { text-align: center; font-size: 0.9rem; margin-bottom: 20px; }
+.network-Good { color: var(--success); }
+.network-Medium { color: orange; }
+.network-Poor { color: var(--error); }
+
+.nav-bar { width: 100%; padding: 15px; background: var(--surface-color); display: flex; justify-content: space-between; align-items: center; }
+.nav-bar a { color: var(--primary-color); text-decoration: none; margin-left: 15px; }
+
+.hidden { display: none !important; }

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call - Audio PWA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container" style="margin-top: 100px;">
+        <h2 id="room-id-display">Room: ...</h2>
+        <div class="call-status" id="call-status">Connecting...</div>
+        <div class="timer" id="call-timer">00:00:00</div>
+        <div class="network-indicator" id="network-indicator">Network: Calculating...</div>
+        
+        <audio id="remote-audio" autoplay></audio>
+        
+        <div style="display: flex; gap: 10px;">
+            <button id="mute-btn">Mute</button>
+            <button id="end-btn" class="danger">End Call</button>
+        </div>
+    </div>
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="call.js"></script>
+</body>
+</html>
