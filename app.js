@@ -1,6 +1,7 @@
 import { auth, db } from './firebase.js';
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { collection, doc, onSnapshot, updateDoc, setDoc, query, where, getDocs, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+// FIX: Ensure setDoc is imported here
+import { collection, doc, onSnapshot, setDoc, query, where, getDocs, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 let currentUser;
 
@@ -10,29 +11,27 @@ onAuthStateChanged(auth, async (user) => {
     
     const userRef = doc(db, 'users', user.uid);
     
-    // 1. Fetch your latest profile data to fix the "Loading..." issue
+    // FIX 1: Set presence using setDoc with merge so it creates the doc if missing
+    await setDoc(userRef, { online: true, lastSeen: new Date().toISOString() }, { merge: true });
+
+    // FIX 2: Safely load profile data
     try {
         const userSnap = await getDoc(userRef);
-        if (userSnap.exists()) {
-            const userData = userSnap.data();
-            // Display the updated username, or fallback to the first part of the email
-            document.getElementById('user-display').innerText = userData.username || user.email.split('@')[0];
+        if (userSnap.exists() && userSnap.data().username) {
+            document.getElementById('user-display').innerText = userSnap.data().username;
         } else {
             document.getElementById('user-display').innerText = user.email.split('@')[0];
         }
     } catch (error) {
-        console.error("Error loading profile:", error);
         document.getElementById('user-display').innerText = user.email.split('@')[0];
     }
 
-    // 2. Set presence (Online status)
-    await updateDoc(userRef, { online: true, lastSeen: new Date().toISOString() });
-
-    // 3. Handle logout
     document.getElementById('logout-btn').addEventListener('click', async () => {
-        await updateDoc(userRef, { online: false });
+        await setDoc(userRef, { online: false }, { merge: true });
         await signOut(auth);
     });
+
+    // ... Keep your "Listen for users" code below this line
 
     // ... [KEEP YOUR EXISTING CODE FOR "Listen for users" AND BELOW] ...
     // Listen for users

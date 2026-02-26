@@ -35,7 +35,8 @@
 <script type="module">
     import { auth, db } from './firebase.js';
     import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    // FIX: Import setDoc instead of updateDoc
+    import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     let currentBase64 = null;
 
@@ -52,12 +53,10 @@
             }
         }
         
-        // Trigger file input
         document.getElementById('upload-btn').addEventListener('click', () => {
             document.getElementById('image-upload').click();
         });
 
-        // Compress image using Canvas
         document.getElementById('image-upload').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (!file) return;
@@ -68,19 +67,14 @@
                 img.onload = function() {
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
-                    
-                    // Resize to 150x150
                     const MAX_SIZE = 150;
                     canvas.width = MAX_SIZE;
                     canvas.height = MAX_SIZE;
-                    
-                    // Draw and crop
                     const size = Math.min(img.width, img.height);
                     const x = (img.width - size) / 2;
                     const y = (img.height - size) / 2;
                     ctx.drawImage(img, x, y, size, size, 0, 0, MAX_SIZE, MAX_SIZE);
                     
-                    // Convert to Base64 with 0.7 quality
                     currentBase64 = canvas.toDataURL('image/jpeg', 0.7);
                     document.getElementById('profile-preview').src = currentBase64;
                 };
@@ -89,13 +83,13 @@
             reader.readAsDataURL(file);
         });
 
-        // Save to Firestore
         document.getElementById('update-profile-btn').addEventListener('click', async () => {
             const newName = document.getElementById('username-input').value;
-            const updateData = { username: newName };
+            const updateData = { username: newName, email: user.email }; // Added email just in case it's a new doc
             if (currentBase64) updateData.photoURL = currentBase64;
             
-            await updateDoc(doc(db, "users", user.uid), updateData);
+            // FIX: Use setDoc with merge: true to avoid the "No document" error
+            await setDoc(doc(db, "users", user.uid), updateData, { merge: true });
             document.getElementById('profile-msg').innerText = "Profile updated securely!";
         });
     });
