@@ -1,6 +1,6 @@
 import { auth, db } from './firebase.js';
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { collection, doc, onSnapshot, updateDoc, setDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { collection, doc, onSnapshot, updateDoc, setDoc, query, where, getDocs, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 let currentUser;
 
@@ -8,18 +8,33 @@ onAuthStateChanged(auth, async (user) => {
     if (!user) return window.location.href = 'index.html';
     currentUser = user;
     
-    // Set presence
     const userRef = doc(db, 'users', user.uid);
-    await updateDoc(userRef, { online: true, lastSeen: new Date().toISOString() });
-    // This splits the email at the '@' and only shows the first part
-    document.getElementById('user-display').innerText = user.email.split('@')[0];
+    
+    // 1. Fetch your latest profile data to fix the "Loading..." issue
+    try {
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists()) {
+            const userData = userSnap.data();
+            // Display the updated username, or fallback to the first part of the email
+            document.getElementById('user-display').innerText = userData.username || user.email.split('@')[0];
+        } else {
+            document.getElementById('user-display').innerText = user.email.split('@')[0];
+        }
+    } catch (error) {
+        console.error("Error loading profile:", error);
+        document.getElementById('user-display').innerText = user.email.split('@')[0];
+    }
 
-    // Handle logout
+    // 2. Set presence (Online status)
+    await updateDoc(userRef, { online: true, lastSeen: new Date().toISOString() });
+
+    // 3. Handle logout
     document.getElementById('logout-btn').addEventListener('click', async () => {
         await updateDoc(userRef, { online: false });
         await signOut(auth);
     });
 
+    // ... [KEEP YOUR EXISTING CODE FOR "Listen for users" AND BELOW] ...
     // Listen for users
     // Listen for users
     onSnapshot(collection(db, 'users'), (snapshot) => {
